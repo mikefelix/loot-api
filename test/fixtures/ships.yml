@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  color: 1
+  strength: 1
+  state: 1
+  player: 
+  target: 
+
+two:
+  color: 1
+  strength: 1
+  state: 1
+  player: 
+  target: 

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  player: 
+  ship: 
+  target: 1
+  num: 1
+
+two:
+  player: 
+  ship: 
+  target: 1
+  num: 1

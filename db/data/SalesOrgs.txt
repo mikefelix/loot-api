@@ -1,0 +1,12 @@
+01|US|1000|USD
+03|EDC|1005|EUR
+04|Tanner Europe|1010|GBP
+02|Canada|3000|CAD
+52|Mexico|52|MXN
+6|International|6|USD
+61|Australia|61|AUD
+65|Singapore|65|SGD
+81|Japan|81|JPY
+85|Hong Kong|852|HKD
+86|China|86|CNY
+91|India|91|INR
