@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20130305220710) do
     t.integer  "player_id"
     t.integer  "game_id"
     t.integer  "target_id"
+    t.integer  "won_in"
     t.string   "target_type"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false

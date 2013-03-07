@@ -83,7 +83,7 @@ describe "/api/v1/games", :type => :controller do
       assert t.num == 4
       merch2 = t.ship
       assert greg.hand.length == 4
-      assert merch2.color == MERCHANT
+      assert merch2.is_merchant?
       assert mike.merchants(true).length == 1
       assert greg.merchants(true).length == 1
       assert mike.merchant_targets(true).length == 1
@@ -113,21 +113,23 @@ describe "/api/v1/games", :type => :controller do
 
       # Mike wins merchant 2, plays merchant 3
       t = mike.take_turn mike.hand[0]
+      merch3 = t.ship
       assert t.num == 7
       assert mike.hand.length == 2
-      assert t.ship.color == MERCHANT
-      assert t.ship.strength == 4
+      assert merch3.is_merchant?
+      assert merch3.strength == 4
       captured = t.captures[0]
-      assert captured.ship.color == MERCHANT
-      assert captured.ship.strength == 4
+      assert captured.is_merchant?
+      assert captured.strength == 2
       assert captured.player == mike
       assert captured.target == nil
       assert greg.merchant_targets(true).length == 1
       assert !greg.merchants(true).include?(captured)
       assert greg.merchants(true).length == 0, greg.merchants.inject(""){ |s,a| s + a.to_s + "," }
-      assert mike.merchant_targets(true).length == 0
-      assert mike.merchants(true).length == 1
-      assert mike.score == 2
+      assert mike.merchant_targets(true).length == 1, mike.merchant_targets.inject(""){ |s,a| s + a.to_s + ',' }
+      assert greg.merchants(true).length == 0
+      assert mike.merchants(true).length == 2, mike.merchants.inject(""){ |s,a| s + a.to_s + ',' }
+      assert mike.score == 2, mike.score.to_s
       assert greg.score == 0
 
       # Greg wins merchant 1, attacks merchant 3
@@ -135,7 +137,6 @@ describe "/api/v1/games", :type => :controller do
       assert t.num == 8
       assert greg.hand.length == 2
       assert t.ship.color == PURPLE
-      assert t.ship.strength == 100
       assert mike.merchant_targets(true).length == 0
       assert mike.merchants(true).length == 1
       assert greg.merchant_targets(true).length == 1

@@ -13,20 +13,6 @@ class Game < ActiveRecord::Base
     ships.select {|s| s.state == IN_DECK }
   end
 
-  def gather_loot
-    res = []
-    players.each do |p|
-      p.merchants.each do |merch|
-        if merch.latest_attacker == current_player and merch.winning_attacker == current_player
-          current_player.win_ship(merch)
-          merch.target = nil
-          res << merch
-        end
-      end
-    end
-    res
-  end
-
   def next_player
     idx = players.find_index current_player
     self.current_player = players[(idx + 1) % players.length]

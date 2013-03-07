@@ -4,7 +4,7 @@ class Ship < ActiveRecord::Base
   belongs_to :target, polymorphic: true
   has_many :attackers, as: :target, class_name: 'Ship'
 
-  attr_accessible :color, :state, :strength, :game
+  attr_accessible :color, :state, :strength, :game, :won_in
 
   def sail(target = nil)
       if color == MERCHANT
@@ -24,6 +24,10 @@ class Ship < ActiveRecord::Base
 
   def is_pirate?
     [BLUE, YELLOW, PURPLE, GREEN].include? color
+  end
+
+  def is_merchant?
+    color == MERCHANT
   end
 
   def latest_attacker # player
@@ -50,7 +54,24 @@ class Ship < ActiveRecord::Base
   end
 
   def to_s
-    "#{strength}#{color}/#{id}"
+    str = case strength
+            when 100 then 'C'
+            when 1000 then ''
+            else strength.to_s
+          end
+    col = case color
+            when PURPLE then 'P'
+            when BLUE then 'B'
+            when YELLOW then 'Y'
+            when GREEN then 'G'
+            when MERCHANT then 'M'
+            when ADMIRAL then 'A'
+            else ''
+          end
+
+    s = "#{col}#{str}"
+    s += "(#{id})" if id
+    s
   end
 end
 

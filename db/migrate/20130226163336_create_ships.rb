@@ -4,6 +4,7 @@ class CreateShips < ActiveRecord::Migration
       t.integer :color
       t.integer :strength
       t.integer :state
+      t.integer :won_in
       t.references :player
       t.references :game
       t.references :target, polymorphic: true
