@@ -5,7 +5,6 @@ class CreateTurns < ActiveRecord::Migration
       t.references :ship
       t.references :target, polymorphic: true
       t.integer :num
-
       t.timestamps
     end
     add_index :turns, :player_id

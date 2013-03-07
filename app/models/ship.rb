@@ -6,7 +6,7 @@ class Ship < ActiveRecord::Base
 
   attr_accessible :color, :state, :strength, :game
 
-  def sail!(target = nil)
+  def sail(target = nil)
       if color == MERCHANT
         raise "Merchants can only target the player." if !target.nil? and target != player
         self.target = player
@@ -19,7 +19,7 @@ class Ship < ActiveRecord::Base
       end
 
       self.state = PLAYED
-      save!
+      save
   end
 
   def is_pirate?
@@ -29,7 +29,7 @@ class Ship < ActiveRecord::Base
   def latest_attacker # player
     raise "Invalid call" if color != MERCHANT
     return player if attackers.empty?
-    latest = attackers.inject {|a,b| if a.modified_on > b.modified_on then a else b end }
+    latest = attackers.inject {|a,b| if a.updated_at > b.updated_at then a else b end }
     latest.player
   end
 
@@ -38,6 +38,7 @@ class Ship < ActiveRecord::Base
     return player if attackers.empty?
     scores = {}
     attackers.each do |a|
+      scores[a.player] = 0 if scores[a.player].nil?
       scores[a.player] += a.strength
     end
     winner = nil
@@ -46,6 +47,10 @@ class Ship < ActiveRecord::Base
       winner = k if !winner or scores[k] > scores[winner]
     end
     winner
+  end
+
+  def to_s
+    "#{strength}#{color}/#{id}"
   end
 end
 

@@ -1,5 +1,6 @@
 class Turn < ActiveRecord::Base
   belongs_to :player
   belongs_to :ship
-  attr_accessible :num, :target
+  belongs_to :target, polymorphic: true
+  attr_accessible :num, :player, :ship, :target
 end
