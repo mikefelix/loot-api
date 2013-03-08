@@ -10,13 +10,9 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require turbolinks
 //= require jquery
 //= require jquery_ujs
-// require jquery.ui.core
-// require jquery.ui.widget
-// require jquery.ui.mouse
-// require jquery.ui.position
-//= require twitter/bootstrap
+//= require bootstrap
 //= require_tree .
-//= require dataTables/jquery.dataTables
+
+
