@@ -59,4 +59,8 @@ class Player < ActiveRecord::Base
   def score
     ships.select {|s| s.state == SCORED }.inject(0){ |total, s| total + s.strength }
   end
+
+  def as_json(options = {})
+    super(options.merge(except: [:created_at, :updated_at, :game_id]))
+  end
 end

@@ -1,12 +1,19 @@
 Loot::Application.routes.draw do
   #resources :sessions, only: [:new, :create, :destroy]
+  root :to => 'main#main'
 
   #match '/signin',  to: 'sessions#new'
   #match '/signout', to: 'sessions#destroy', via: :delete
-
-  resources :games do
-    resources :turns, :players
+  namespace :api do
+    namespace :v1 do
+      resources :games do
+        resources :turns, :players
+      end
+    end
   end
+
+  match '/partials/games' => 'partials#games'
+  match '/partials/game' => 'partials#game'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -54,10 +61,6 @@ Loot::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  root :to => 'begin#index'
 
   # See how all your routes lay out with "rake routes"
 

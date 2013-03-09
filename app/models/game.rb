@@ -16,6 +16,7 @@ class Game < ActiveRecord::Base
   def next_player
     idx = players.find_index current_player
     self.current_player = players[(idx + 1) % players.length]
+    self.turn += 1
   end
 
   def self.create_game(opts={})
@@ -41,7 +42,7 @@ class Game < ActiveRecord::Base
     end
 
     g.current_player = g.players.first
-    #g.turn = 1
+    g.turn = 1
     g
   end
 
@@ -76,7 +77,23 @@ class Game < ActiveRecord::Base
     save!
   end
 
+  def players_in_order
+    num = players.length
+    start = if current_player.nil?
+              0
+            else
+              players.find_index {|p| p == current_player}
+            end
+    res = []
+    for i in 0..(num-1)
+      res << players[(start + i) % num]
+    end
+    res
+  end
+
   def as_json(options = {})
-    super(options.merge(except: [:created_at, :updated_at]))
+    super(options.merge(except: [:created_at, :updated_at, :current_player_id],
+                        #include: :players,
+                        methods: :players_in_order))
   end
 end
