@@ -73,5 +73,22 @@ class Ship < ActiveRecord::Base
     s += "(#{id})" if id
     s
   end
+
+  def color_str
+    case color
+      when BLUE then 'blue'
+      when YELLOW then 'yellow'
+      when PURPLE then 'purple'
+      when GREEN then 'green'
+      when ADMIRAL then 'admiral'
+      else 'merchant'
+    end
+  end
+
+  def as_json(options = {})
+    super(options.merge(only: [:strength, :id],
+                        methods: [:attackers, :color_str]
+          ))
+  end
 end
 

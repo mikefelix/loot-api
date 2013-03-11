@@ -12,6 +12,7 @@ class Api::V1::GamesController < ApplicationController
     render json: @game
   end
 
+  # POST /game.json
   def create
     @game = Game.create_game params
     render json: @game

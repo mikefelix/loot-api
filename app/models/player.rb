@@ -1,12 +1,17 @@
 class Player < ActiveRecord::Base
   belongs_to :game
-  attr_accessible :name, :game
+  belongs_to :user
+  attr_accessible :name, :game, :user
   has_many :merchants, as: :target, class_name: 'Ship'
   has_many :ships
   has_many :turns
 
   def hand
     ships.select { |s| s.state == IN_HAND }
+  end
+
+  def name
+    user.name
   end
 
   def merchant_targets(refresh = false)
@@ -61,6 +66,8 @@ class Player < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options.merge(except: [:created_at, :updated_at, :game_id]))
+    super(options.merge(except: [:created_at, :updated_at, :game_id],
+                        methods: :merchants
+          ))
   end
 end

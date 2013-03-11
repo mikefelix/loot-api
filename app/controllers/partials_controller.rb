@@ -6,4 +6,7 @@ class PartialsController < ApplicationController
 
   def game
   end
+
+  def newGame
+  end
 end

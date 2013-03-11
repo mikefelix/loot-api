@@ -11,12 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130305220710) do
-
-  create_table "burgers", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20130309191822) do
 
   create_table "games", :force => true do |t|
     t.string   "name"
@@ -28,9 +23,9 @@ ActiveRecord::Schema.define(:version => 20130305220710) do
 
   create_table "players", :force => true do |t|
     t.integer  "game_id"
-    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id", :null => false
   end
 
   add_index "players", ["game_id"], :name => "index_players_on_game_id"
@@ -64,5 +59,11 @@ ActiveRecord::Schema.define(:version => 20130305220710) do
 
   add_index "turns", ["player_id"], :name => "index_turns_on_player_id"
   add_index "turns", ["ship_id"], :name => "index_turns_on_ship_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

@@ -1,10 +1,11 @@
 <div id="loot">
-    <div id="games" ng-repeat="game in games">
-      <a ng-href="#/game/{{game.id}}">{{game.name}}</a> (turn {{game.turn}})
-      <ul>
-        <li ng-repeat="player in game.players_in_order">
-            {{player.name}}
-        </li>
-      </ul>
-    </div>
+  <h2>Games</h2>
+  <div id="games" ng-repeat="game in games">
+    <a ng-href="#/game/{{game.id}}">{{game.name}}</a> (turn {{game.turn}})
+    <ul>
+      <li ng-repeat="player in game.players_in_order">
+        {{player.name}}
+      </li>
+    </ul>
+  </div>
 </div>

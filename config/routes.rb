@@ -9,11 +9,18 @@ Loot::Application.routes.draw do
       resources :games do
         resources :turns, :players
       end
+      resources :players do
+        #collection do
+        #  get 'hand'
+        #end
+      end
+      resources :users
     end
   end
 
   match '/partials/games' => 'partials#games'
   match '/partials/game' => 'partials#game'
+  match '/partials/newGame' => 'partials#newGame'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -21,13 +21,13 @@ class Game < ActiveRecord::Base
 
   def self.create_game(opts={})
     name = opts[:name]
-    player_names = opts[:player_names]
-    raise "Need name and player_names" if not name or not player_names
+    users = opts[:users]
+    raise "Need name and player_names" if not name or not users
 
     g = Game.create name: name
 
-    player_names.each do |p|
-      g.players.create name: p, game: g
+    users.each do |u|
+      g.players.create user: u, game: g
     end
 
     g.new_deck opts[:ships_at_front]
@@ -43,6 +43,7 @@ class Game < ActiveRecord::Base
 
     g.current_player = g.players.first
     g.turn = 1
+    g.save
     g
   end
 

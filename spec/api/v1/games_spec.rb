@@ -2,23 +2,12 @@ require 'spec_helper'
 
 describe "/api/v1/games", :type => :controller do
 
-  describe "creating a new game" do
-
-    context "when authorized" do
-      it "should create a new game" do
-        #c = Game.count
-        #json = { name: 'Test', players: [ 'Mike', 'Greg' ] }
-        #post :create, json
-        #Game.count.should == c + 1
-        #response.status.should eq(200)
-        ##JSON.parse(response.body)["message"] =~ /authorized/
-      end
-    end
-  end
-
   describe "turns" do
+
     it "should execute a sample game" do
-      g = Game.create_game name: 'Test game', player_names: ['Mike', 'Greg'], ships_at_front: [
+      u1 = User.create name: 'Mike'
+      u2 = User.create name: 'Greg'
+      g = Game.create_game name: 'Test game', users: [u1, u2], ships_at_front: [
           # hands
           {color: MERCHANT, strength: 6},   # 1:  Mike plays merchant 1
           {color: YELLOW, strength: 3},     # 3:  Mike defends merchant 1, battle is tied
