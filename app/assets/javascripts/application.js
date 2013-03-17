@@ -13,8 +13,14 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require bootstrap-typeahead
 //= require angular
+//= require angular/loot-app
+//= require angular/loot-config
+//= require angular/loot-services
+//= require angular/loot-directives
+//= require angular/loot-controllers
 //= require angular-resource
-//= require_tree .
 //= require_tree ./angular
+//= require_tree .
 // require angle-up

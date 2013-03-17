@@ -14,7 +14,8 @@ class Api::V1::GamesController < ApplicationController
 
   # POST /game.json
   def create
-    @game = Game.create_game params
+    users = params[:users].map {|id| User.find id }
+    @game = Game.create_game name: params[:name], users: users
     render json: @game
   end
 end

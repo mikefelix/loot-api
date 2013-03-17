@@ -1,20 +1,20 @@
 <div id="loot">
-Game {{game.id}}: {{game.name}}.
+Game {{game.id}}: {{game.name}}. Player {{player.id}}
   <br/>
-  {{game}}
-  <div ng-repeat="player in game.players_in_order" class="player">
-    Player {{player.name}}
-    <div ng-repeat="merchant in player.merchants" class="merchant">
-      {{merchant.strength}}
-      <div ng-repeat="attacker in merchant.attackers" class="attacker {{attacker.color_str}}">
-        {{attacker.strength}}
-      </div>
+
+  <div id="gameArea" style="height:100%">
+    <div ng-repeat="player in players" class="player">
+      <div style="position:absolute;right:{{player.coords[0]}}px;top:{{player.coords[1]}}px;">{{player.name}}</div>
+      <!--<div ng-repeat="merchant in player.merchants" class="merch">-->
+        <!--{{merchant.strength}}-->
+        <!--<div ng-repeat="attacker in merchant.attackers" class="attacker {{attacker.color_str}}">-->
+          <!--{{attacker.strength}}-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 
-  <div id="hand">
-    <div ng-repeat="card in player.hand">
-        {{card.color_str}}{{card.strength}}
-    </div>
+  <div id="hand" style="position:fixed;left:10px;">
+    <card ng-repeat="ship in player.hand" ship="ship" style="display:block"/>
   </div>
 </div>

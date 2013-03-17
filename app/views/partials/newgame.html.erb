@@ -9,20 +9,21 @@
       <div id="players">
         Players:
         <ul>
-        <li ng-repeat="user in newGameUsers">{{user.name}}</li>
+          <li>You</li>
+          <li ng-repeat="user in addedUsers" id="user{{user.id}}">{{user.name}}</li>
           <li>
-            <input type="text" id="userSearch" ng-placeholder="Search for a user" class="username" ng-model="userSearch"
-                   ng-change="usernameTextEntered(this)"/>
+            <input type="text" id="userSearch" class="username" bs-typeahead="userNames" min-length="0" updater="userAdded"/>
           </li>
         </ul>
       </div>
 
-      <div id="userInput">
-
-        <div id="searchResultsContainer" style="width: 200px;border: 1px dotted black" ng-show="searchResults.length > 0">
-          <div ng-repeat="user in searchResults" ng-click="addUser(user)">{{user.name}}</div>
-        </div>
-      </div>
+      Added: {{addedUsers.length}}
+      <!--<div id="userInput">-->
+<!---->
+        <!--<div id="searchResultsContainer" style="width: 200px;border: 1px dotted black" ng-show="searchResults.length > 0">-->
+          <!--<div ng-repeat="user in searchResults" ng-click="addUser(user);$('#userSearch').focus()">{{user.name}}</div>-->
+        <!--</div>-->
+      <!--</div>-->
 
       <input type="button" class="btn" style="position:absolute;bottom:10px" ng-click="createGame()" value="Create game"
              ng-disabled="createForm.$invalid || newGameUsers.length < 2"/>

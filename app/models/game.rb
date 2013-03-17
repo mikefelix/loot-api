@@ -24,26 +24,29 @@ class Game < ActiveRecord::Base
     users = opts[:users]
     raise "Need name and player_names" if not name or not users
 
-    g = Game.create name: name
+    g = nil
+    transaction do
+      g = Game.create name: name
 
-    users.each do |u|
-      g.players.create user: u, game: g
-    end
-
-    g.new_deck opts[:ships_at_front]
-
-    g.players.each do |player|
-      6.times do
-        ship = g.deck.shift
-        ship.state = IN_HAND
-        #puts "Giving #{ship.to_s} to player #{player.name}"
-        player.ships << ship
+      users.each do |u|
+        g.players.create user: u, game: g
       end
-    end
 
-    g.current_player = g.players.first
-    g.turn = 1
-    g.save
+      g.new_deck opts[:ships_at_front]
+
+      g.players.each do |player|
+        6.times do
+          ship = g.deck.shift
+          ship.state = IN_HAND
+          #puts "Giving #{ship.to_s} to player #{player.name}"
+          player.ships << ship
+        end
+      end
+
+      g.current_player = g.players.first
+      g.turn = 1
+      g.save
+    end
     g
   end
 

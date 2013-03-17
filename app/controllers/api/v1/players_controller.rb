@@ -10,13 +10,13 @@ class Api::V1::PlayersController < ApplicationController
 
   def show
     player = Player.find params[:id]
-    puts "This user is #{@user.name}"
-    puts "This user id is #{player.user_id}"
-    puts "Player's user is #{player.user.nil? ? 'nil' : player.user.name}"
-    if player.user != @user
-      render text: "Access denied!"
-    else
-      render json: player.to_json(include: :hand)
+    includes = {}
+    if player.user == @user
+      includes[:hand] = {
+          only: :strength,
+          methods: :color_str
+      }
     end
+    render json: player.as_json({ include: includes })
   end
 end
