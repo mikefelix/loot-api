@@ -2,7 +2,7 @@ LootApp.value 'loggedInUser'
   name: 'Mike'
   id: 1
 
-LootApp.config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
+LootApp.config ['$routeProvider', ($routeProvider) ->
   $routeProvider.when '/games'
                       templateUrl: '/partials/games'
                       controller: 'GameChooseCtrl'
@@ -15,14 +15,17 @@ LootApp.config ['$routeProvider', '$locationProvider', ($routeProvider, $locatio
                       templateUrl: '/partials/game'
                       controller: 'GameCtrl'
                       resolve:
-                        currentGame: ($route, Game) -> Game.get id: $route.current.params['id']
-#                        currentGame: ($route, $q, Game) ->
-#                          deferred = $q.defer()
-#                          Game.get
-#                            id: $route.current.params['id']
-#                            (successData) -> deferred.resolve successData
-#                            () -> deferred.reject()
-#                          deferred.promise
+                        currentGame: ($route, Game, Defer) ->
+                          Defer.resource Game.get, id: $route.current.params['id'], (game) ->
+                            game.pmap = {}
+                            for p in game.players
+                              game.pmap[p.id] = p
+                            for p in game.players
+                              for m in p.merchants
+                                m.player = game.pmap[m.player_id]
+                                for a in m.attackers
+                                  a.player = game.pmap[a.player_id]
+
   $routeProvider.otherwise
     redirectTo: '/games'
 

@@ -1,20 +1,27 @@
 <div id="loot">
-Game {{game.id}}: {{game.name}}. Player {{player.id}}
+  Game {{game.id}}: {{game.name}}. Player {{player.id}}
   <br/>
 
   <div id="gameArea" style="height:100%">
-    <div ng-repeat="player in players" class="player">
-      <div style="position:absolute;right:{{player.coords[0]}}px;top:{{player.coords[1]}}px;">{{player.name}}</div>
-      <!--<div ng-repeat="merchant in player.merchants" class="merch">-->
-        <!--{{merchant.strength}}-->
-        <!--<div ng-repeat="attacker in merchant.attackers" class="attacker {{attacker.color_str}}">-->
-          <!--{{attacker.strength}}-->
-        <!--</div>-->
-      <!--</div>-->
+    <div class="playerTrack" num="$index" ng-repeat="player in players">
+      {{player.name}}
+      <div class="merchantArea" ng-repeat="merchant in player.merchants">
+        {{merchant.strength}}
+        <div class="carrier" ng-show="merchant.winner">
+          <img ng-src="ships/{{merchant.winner.color_str}}.png" />
+        </div>
+        <div class="attackerGroup" ng-repeat="attackerGroup in merchant.attackerGroups">
+          <div class="attacker" ng-repeat="attacker in attackerGroup">
+            <img ng-src="ships/{{attacker.color_str}}.png" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div id="hand" style="position:fixed;left:10px;">
-    <card ng-repeat="ship in player.hand" ship="ship" style="display:block"/>
+    <card ng-repeat="ship in player.hand" ship="ship" style="display:block" id="ship_{{ship.id}}"
+          data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}"
+    />
   </div>
 </div>

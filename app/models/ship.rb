@@ -86,7 +86,7 @@ class Ship < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(options.merge(only: [:strength, :id],
+    super(options.merge(only: [:strength, :id, :player],
                         methods: [:attackers, :color_str]
           ))
   end

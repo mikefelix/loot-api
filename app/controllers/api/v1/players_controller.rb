@@ -13,7 +13,7 @@ class Api::V1::PlayersController < ApplicationController
     includes = {}
     if player.user == @user
       includes[:hand] = {
-          only: :strength,
+          only: [:strength, :id],
           methods: :color_str
       }
     end

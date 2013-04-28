@@ -95,9 +95,42 @@ class Game < ActiveRecord::Base
     res
   end
 
+
+#{
+#    "id": 1,
+#    "name": "afd",
+#    "turn": 3,
+#    "players": [{
+#            "id": 1,
+#            "user_id": 1,
+#            "name": "Mike",
+#            "merchants": [{
+#                    "id": 3,
+#                    "player_id": 1,
+#                    "strength": 4,
+#                    "attackers": [{
+#                            "id": 7,
+#                            "player_id": 2,
+#                            "strength": 2,
+#                            "color_str": "green"
+#                        }
+#                    ]
+#                }
+#            ]
+#        }, {
+#            "id": 2,
+#            "user_id": 2,
+#            "name": "Kimberly",
+#            "merchants": []
+#        }
+#    ]
+#}
   def as_json(options = {})
     super(options.merge(except: [:created_at, :updated_at, :current_player_id],
-                        #include: :players,
-                        methods: :players_in_order))
+                        include: {
+                            players: Player::PLAYER_JSON
+                        }
+          )
+    )
   end
 end

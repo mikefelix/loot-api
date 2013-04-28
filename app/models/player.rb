@@ -1,4 +1,20 @@
 class Player < ActiveRecord::Base
+  PLAYER_JSON = {
+      except: [:created_at, :updated_at, :game_id],
+      methods: :name,
+      include: {
+          merchants: {
+              only: [:id, :player_id, :strength],
+              include: {
+                  attackers: {
+                      only: [:id, :strength, :player_id],
+                      methods: :color_str
+                  }
+              }
+          }
+      }
+  }
+
   belongs_to :game
   belongs_to :user
   attr_accessible :name, :game, :user
@@ -65,9 +81,25 @@ class Player < ActiveRecord::Base
     ships.select {|s| s.state == SCORED }.inject(0){ |total, s| total + s.strength }
   end
 
+  #{
+  #  "id": 1,
+  #  "user_id": 1,
+  #  "name": "Mike",
+  #  "merchants": [{
+  #          "player_id": 1,
+  #          "strength": 4,
+  #          "attackers": [{
+  #                  "id": 7,
+  #                  "player_id": 2,
+  #                  "strength": 2,
+  #                  "color_str": "green"
+  #              }
+  #          ]
+  #      }
+  #  ]
+  #}
   def as_json(options = {})
-    super(options.merge(except: [:created_at, :updated_at, :game_id],
-                        methods: [:merchants, :name]
-          ))
+    super(options.merge(PLAYER_JSON))
   end
+
 end

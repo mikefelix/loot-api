@@ -11,6 +11,7 @@ gem 'quiet_assets',            '1.0.1'
 gem 'turbolinks',              '0.5.1'
 gem 'jquery-rails',            '2.1.4'
 gem 'angular-rails'
+gem 'underscore-rails',         "~> 1.4.3"
 
 group :assets do
   gem 'sass-rails',            '~> 3.2.5'
@@ -25,6 +26,8 @@ group :development, :test do
   gem 'rspec-rails',           '2.12.0'
   gem 'guard-rspec',           '2.3.3'
   gem 'guard-spork',           '1.4.0'
+  gem 'guard-jasmine'
+  gem 'jasminerice'
 end
 
 group :test do
