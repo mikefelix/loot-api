@@ -10,9 +10,13 @@ describe 'ModelMapper', ->
     constructor: (@level) ->
     pop: -> "#{@level} is too much! Boom!"
 
+  class Trunk
+    constructor: (@empty) ->
+
   class Car
     @propertyTypes:
       tires: Tire
+      trunk: Trunk
     constructor: (@name, @tires) ->
     drive: () -> 'Vroom.'
 
@@ -34,7 +38,7 @@ describe 'ModelMapper', ->
     backend.verifyNoOutstandingExpectation()
     backend.verifyNoOutstandingRequest()
 
-  xit 'maps properties to new models', inject (ModelMapper) ->
+  it 'maps properties to new models', inject (ModelMapper) ->
     expect(ModelMapper.copyAsModel 1).toBe 1
     expect(ModelMapper.copyAsModel [1,2]).toEqual [1,2]
     expect(ModelMapper.copyAsModel {a:1}).toEqual {a:1}
@@ -45,6 +49,13 @@ describe 'ModelMapper', ->
     models = ModelMapper.copyAsModel [{level: 7}, {level: 8}], Tire
     expect(models[0].pop()).toBe '7 is too much! Boom!'
     expect(models[1].pop()).toBe '8 is too much! Boom!'
+
+    model = ModelMapper.copyAsModel { name:"Blaster", tires: [ {level: 4} ], trunk: {empty: false} }, Car
+    expect(model.name).toBe 'Blaster'
+    expect(model.trunk.empty).toBe false
+    expect(model.trunk._parent).toBe model
+    expect(model.tires[0].pop()).toBe '4 is too much! Boom!'
+    expect(model.tires[0]._parent).toBe model
 
   it 'can retrieve models', ->
     backend.expectGET('/fake/url/1').respond '''
@@ -60,7 +71,8 @@ describe 'ModelMapper', ->
                                                      { "id": 2, "level": 22 },
                                                      { "id": 3, "level": 33 },
                                                      { "id": 4, "level": 44 }
-                                                   ]
+                                                   ],
+                                                   "trunk": { "empty": false }
                                                  },
                                                  {
                                                    "id": 2,
@@ -70,7 +82,8 @@ describe 'ModelMapper', ->
                                                      { "id": 12, "level": 22 },
                                                      { "id": 13, "level": 23 },
                                                      { "id": 14, "level": 24 }
-                                                   ]
+                                                   ],
+                                                   "trunk": { "empty": true }
                                                  }
                                                ],
                                                "jacket": { "id": 8, "color": "fuchsia" }
@@ -83,7 +96,7 @@ describe 'ModelMapper', ->
 
     expect(joe.id).toBe 1
     expect(joe.name).toBe 'Joe'
-    expect(joe.drive()).toBe 'Wheeee!'
+    expect(joe.drive()).toBe 'Wheeeee!'
 
     expect(joe.jacket.color).toBe 'fuchsia'
     expect(joe.jacket.pop()).toBe 'Collar!'
@@ -92,28 +105,33 @@ describe 'ModelMapper', ->
     expect(beeps.drive()).toBe 'Vroom.'
     expect(beeps.tires[3].level).toBe 24
     expect(beeps.tires[1].pop()).toBe '22 is too much! Boom!'
+    expect(beeps.tires[2]._parent).toBe beeps
 
-  xit 'errors on save with insufficient data', ->
+    expect(beeps.trunk.empty).toBe true
+    expect(beeps.trunk._parent).toBe beeps
 
-  xit 'can save new models', ->
-    backend.expectPOST('/fake/url', '{"str":"I am new"}').respond '{ "id": 1 }'
-    t = new Test 'I am new'
+
+  it 'errors on save with insufficient data', ->
+
+  it 'can save new models', ->
+    backend.expectPOST('/fake/url', '{"level":20}').respond '{ "id": 1 }'
+    t = new Tire 20
     mapper.create t
     backend.flush()
 
     expect(t.id).toBe 1
-    expect(t.str).toBe 'I am new'
+    expect(t.level).toBe 20
 
-  xit 'can update models', ->
+  it 'can update models', ->
     backend.expectPUT('/fake/url/1').respond 200
-    t = new Test 'stuff'
+    t = new Tire 20
     t.id = 1
     mapper.update t
     backend.flush()
 
-  xit 'can delete models', ->
+  it 'can delete models', ->
     backend.expectDELETE('/fake/url/1').respond 200
-    t = new Test 'stuff'
+    t = new Tire 20
     t.id = 1
     mapper.destroy t
     backend.flush()

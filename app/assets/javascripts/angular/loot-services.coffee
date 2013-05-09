@@ -17,18 +17,22 @@ LootApp.service 'ModelMapper', ($http) ->
   #   copyProperty 1, A
   #   copyProperty '1', A
   #   copyProperty [1,2], A
-  copyProperty = @copyAsModel = (source, modelClass) ->
+  copyProperty = @copyAsModel = (source, modelClass, parent) ->
     if $.isArray source
       arr = []
       for p, i in source
         arr[i] = copyProperty p, modelClass
+        arr[i]._parent = parent if parent?
       arr
     else if typeof source == 'object'
       alert "string #{modelClass}" if typeof modelClass is 'string'
       model = if modelClass? then new modelClass() else {}
       for own p of source
-        model[p] = copyProperty source[p], modelClass?.propertyTypes?[p]
+        model[p] = copyProperty source[p], modelClass?.propertyTypes?[p], model
+      model._parent = parent if parent?
       model
+    else if typeof source == 'function'
+      throw "Function not supported."
     else
       throw "Specified #{modelClass} but #{source} is not an object." if modelClass?
       source
@@ -44,7 +48,7 @@ LootApp.service 'ModelMapper', ($http) ->
       $http.get(url.replace(/:\bid\b/g, id))
         .success (data) ->
           for own p of data
-            model[p] = copyProperty data[p], modelClass.propertyTypes?[p]
+            model[p] = copyProperty data[p], modelClass.propertyTypes?[p], model
           onSuccess model, data
         .error (err) ->
           onError err, model

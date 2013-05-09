@@ -80,7 +80,14 @@ describe 'GameCtrl', ->
             "id": 2,
             "user_id": 2,
             "name": "Kimberly",
-            "merchants": []
+            "merchants": [
+              {
+                "id": 64,
+                "player_id": 2,
+                "strength": 3,
+                "attackers": []
+              }
+            ]
           },
           {
             "id": 3,
@@ -176,14 +183,16 @@ describe 'GameCtrl', ->
     kimberly = _.find scope.players, (p) -> p.name == 'Kimberly'
     mike = _.find scope.players, (p) -> p.name == 'Mike'
 
-    expect(mike.merchants[0].winner()).toBe mike
-    expect(mike.merchants[0].attackers[0].imageUrl).toBe 'ships/green.png'
+    expect(mike.merchants[0].winner()).toBe kimberly
+    expect(mike.merchants[0].attackers[0].imageUrl()).toBe 'ships/green.png'
 
     expect(mike.merchants[1].winner()).toBe null
-    expect(mike.merchants[1].attackers[0].imageUrl).toBe 'ships/green.png'
-    expect(mike.merchants[1].attackers[1].imageUrl).toBe 'ships/blue.png'
+    expect(mike.merchants[1].attackers[0].imageUrl()).toBe 'ships/green.png'
+    expect(mike.merchants[1].attackers[1].imageUrl()).toBe 'ships/blue.png'
     expect(mike.merchants[1].attackers[1].strength).toEqual 2
 
-    expect(mike.merchants[2].winner()).toBe kimberly
+    expect(mike.merchants[2].winner()).toBe mike
 
-    expect(scope.game.winner()).toBe mike
+    expect(kimberly.merchants[0].winner()).toBe kimberly
+
+#    expect(scope.game.winner()).toBe mike   # Can't know this yet.

@@ -20,6 +20,8 @@ LootApp.service 'Models', () ->
 
   @Ship = class Ship extends Model
       @requiredProperties: ['strength']
+      imageUrl: ->
+        "ships/#{@color_str}.png"
 
   @Pirate = class Pirate extends Ship
       @requiredProperties: ['color_str', 'player_id']
@@ -29,7 +31,7 @@ LootApp.service 'Models', () ->
       @propertyTypes:
         attackers: Pirate
       winner: ->
-        return null if !@attackers? or @attackers.length < 1
+        return @_parent if !@attackers? or @attackers.length < 1
         totals = {}
         for s in @attackers
           totals[s.player_id] = (totals[s.player_id]? or 0) + s.strength
@@ -38,11 +40,19 @@ LootApp.service 'Models', () ->
           player_id: p
           score: s
         scores = scores.sort (a,b) ->
-          if a.score < b.score -1
-          else if b.score < a.score 1
-          else 0
+          if a.score < b.score
+            1
+          else if b.score < a.score
+            -1
+          else
+            0
         if scores.length == 1 or (scores.length > 1 and scores[0].score > scores[1].score)
-          scores[0].player_id
+          if @_parent?._parent?
+            player = _.find @_parent._parent.players, (p) -> +p.id is +scores[0].player_id
+            throw "Can't find player with id #{scores[0].player_id}" if !player?
+            player
+          else
+            scores[0].player_id
         else
           null
 
@@ -51,11 +61,12 @@ LootApp.service 'Models', () ->
       @propertyTypes:
         merchants: Merchant
       score: -> @finalScore or 0
+      toString: -> "Player #{@id} (#{@name})"
 
   @Game = class Game extends Model
       @requiredProperties: -> _.union super, ['players', 'name', 'turn']
       @propertyTypes:
         players: Player
       winner: ->
-        _.max @players, (p) -> p.score() # TODO: hook up the sub-functions!
+        _.max @players, (p) -> p.score()
 
