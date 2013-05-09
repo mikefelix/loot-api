@@ -19,6 +19,8 @@
 //= require angular
 //= require angular/loot-app
 //= require angular/loot-config
+//= require angular/loot-models
+//= require angular/loot-factories
 //= require angular/loot-services
 //= require angular/loot-directives
 //= require angular/loot-controllers

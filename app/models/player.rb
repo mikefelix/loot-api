@@ -96,10 +96,44 @@ class Player < ActiveRecord::Base
   #              }
   #          ]
   #      }
-  #  ]
-  #}
+  #  ],
+  #  "hand": [{
+  #               "id": 1,
+  #      "strength": 2,
+  #      "color_str": "purple"
+  #  }, {
+  #      "id": 2,
+  #      "strength": 2,
+  #      "color_str": "green"
+  #  }, {
+  #      "id": 4,
+  #      "strength": 3,
+  #      "color_str": "purple"
+  #  }, {
+  #      "id": 5,
+  #      "strength": 4,
+  #      "color_str": "merchant"
+  #  }, {
+  #      "id": 6,
+  #      "strength": 2,
+  #      "color_str": "purple"
+  #  }]
+  # }
   def as_json(options = {})
-    super(options.merge(PLAYER_JSON))
+    opts = options.merge(PLAYER_JSON)
+    if options[:hand]
+      opts[:include][:hand] = {
+          only: [:strength, :id],
+          methods: :color_str
+      }
+    end
+
+    s = super(opts)
+    #puts "Player.as_json is using:"
+    #for key in opts.keys
+    #  puts "#{key}: #{opts[key]}"
+    #end
+    s
   end
 
 end

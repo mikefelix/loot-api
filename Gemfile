@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '1.9.3'
 
 gem 'rails',                   '3.2.11'
+gem 'jasmine'
 gem 'pg',                      '0.14.1'
 gem 'sqlite3'
 gem 'thin',                    '1.5.0'
@@ -10,8 +11,8 @@ gem 'simple_form',             '2.0.4'
 gem 'quiet_assets',            '1.0.1'
 gem 'turbolinks',              '0.5.1'
 gem 'jquery-rails',            '2.1.4'
-gem 'angular-rails'
-gem 'underscore-rails',         "~> 1.4.3"
+gem 'angularjs-rails',         '1.0.6'
+gem 'underscore-rails',        "~> 1.4.3"
 
 group :assets do
   gem 'sass-rails',            '~> 3.2.5'

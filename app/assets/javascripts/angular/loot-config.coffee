@@ -15,16 +15,8 @@ LootApp.config ['$routeProvider', ($routeProvider) ->
                       templateUrl: '/partials/game'
                       controller: 'GameCtrl'
                       resolve:
-                        currentGame: ($route, Game, Defer) ->
-                          Defer.resource Game.get, id: $route.current.params['id'], (game) ->
-                            game.pmap = {}
-                            for p in game.players
-                              game.pmap[p.id] = p
-                            for p in game.players
-                              for m in p.merchants
-                                m.player = game.pmap[m.player_id]
-                                for a in m.attackers
-                                  a.player = game.pmap[a.player_id]
+                        currentGame: ($route, Game) ->
+                          Game.getSynchronous id: $route.current.params['id']
 
   $routeProvider.otherwise
     redirectTo: '/games'

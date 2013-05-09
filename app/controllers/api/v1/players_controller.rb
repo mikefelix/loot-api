@@ -17,6 +17,6 @@ class Api::V1::PlayersController < ApplicationController
           methods: :color_str
       }
     end
-    render json: player.as_json({ include: includes })
+    render json: player.as_json({ hand: player.user == @user })
   end
 end
