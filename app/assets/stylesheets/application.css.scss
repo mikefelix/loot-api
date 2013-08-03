@@ -14,13 +14,22 @@
  *= require jquery.ui.theme
  */
 
-//#appname {
-//  margin-top: 20px;
-//  font-size: 20pt;
-//}
+#hand {
+  position:fixed;
+  left:10px;
+  top:60px;
+}
+
+#gameArea, #outerGameArea, #content {
+  height: 100%;
+}
 
 .player, .merch, .attacker {
   margin-left: 20px;
+}
+
+.current {
+  font-weight: bold;
 }
 
 .cardZone {
@@ -29,7 +38,17 @@
   width: 100px;
 }
 
-.player {
+.playerTrack {
+  border-top: 1px solid black;
+  position: relative;
+}
+
+.playerTrack:last-child {
+  border-bottom: 1px solid black;
+}
+
+.merchant {
+  position: absolute;
 }
 
 .purple, .blue, .yellow, .green, .merchant {

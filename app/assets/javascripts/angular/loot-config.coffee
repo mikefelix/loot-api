@@ -15,8 +15,8 @@ LootApp.config ['$routeProvider', ($routeProvider) ->
                       templateUrl: '/partials/game'
                       controller: 'GameCtrl'
                       resolve:
-                        currentGame: ($route, Game) ->
-                          Game.getSynchronous id: $route.current.params['id']
+                        currentGame: ($route, GameMapper) ->
+                          GameMapper.retrieve $route.current.params['id']
 
   $routeProvider.otherwise
     redirectTo: '/games'

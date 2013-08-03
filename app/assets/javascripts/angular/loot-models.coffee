@@ -64,9 +64,11 @@ LootApp.service 'Models', () ->
       toString: -> "Player #{@id} (#{@name})"
 
   @Game = class Game extends Model
-      @requiredProperties: -> _.union super, ['players', 'name', 'turn']
+      @requiredProperties: -> ['players', 'name', 'turn']
       @propertyTypes:
         players: Player
       winner: ->
         _.max @players, (p) -> p.score()
+      currentPlayer: ->
+        @players[@players.length % @turn]
 

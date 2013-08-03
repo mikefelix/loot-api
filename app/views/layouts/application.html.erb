@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:85%">
 <head>
   <meta charset="utf-8">
   <title><%= content_for?(:title) ? yield(:title) : "Myapp" %></title>
@@ -27,7 +27,7 @@
   <%= yield(:head) %>
 </head>
 
-<body ng-app="LootApp">
+<body ng-app="LootApp" style="height:100%">
 
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
@@ -48,7 +48,7 @@
   </div>
 </div>
 
-<div class="container" ng-view>
+<div id="content" class="container" ng-view>
     <%= yield %>
 </div> <!-- /container -->
 

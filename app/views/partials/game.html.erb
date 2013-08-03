@@ -1,14 +1,15 @@
-<div id="loot">
-  Game {{game.id}}: {{game.name}}. Player {{player.id}}
+<div id="outerGameArea" style="height:100%">
+  Turn {{game.turn}} of game "{{game.name}}". You are {{player.name}}; active player is {{game.currentPlayer().name}}
   <br/>
 
-  <div id="gameArea" style="height:100%">
-    <div class="playerTrack" num="$index" ng-repeat="player in players">
-      {{player.name}}
+  <div id="gameArea">
+    <div class="playerTrack" num="$index" ng-repeat="player in players" ng-style="{height: trackHeight}">
+      <span ng-class="{current: isCurrentPlayer(player)}">{{player.name}}</span>
       <div class="merchantArea" ng-repeat="merchant in player.merchants">
-        {{merchant.strength}}
+        <div class="merchant" ng-style="{left: merchLeft(player)}">{{merchant.strength}}</div>
         <div class="carrier" ng-show="merchant.winner">
-          <img ng-src="ships/{{merchant.winner.color_str}}.png" />
+          <!--<img ng-src="ships/{{merchant.winner.color_str}}.png" />-->
+          <card ship="merchant" />
         </div>
         <div class="attackerGroup" ng-repeat="attackerGroup in merchant.attackerGroups">
           <div class="attacker" ng-repeat="attacker in attackerGroup">
@@ -19,7 +20,7 @@
     </div>
   </div>
 
-  <div id="hand" style="position:fixed;left:10px;">
+  <div id="hand">
     <card ng-repeat="ship in player.hand" ship="ship" style="display:block" id="ship_{{ship.id}}"
           data-drag="true" data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}"
     />

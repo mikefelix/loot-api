@@ -17,6 +17,8 @@
 //= require bootstrap
 //= require bootstrap-typeahead
 //= require angular
+//= require angular/datamapper-module
+//= require angular/datamapper
 //= require angular/loot-app
 //= require angular/loot-config
 //= require angular/loot-models

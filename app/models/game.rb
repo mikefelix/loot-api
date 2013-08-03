@@ -13,7 +13,7 @@ class Game < ActiveRecord::Base
     ships.select {|s| s.state == IN_DECK }
   end
 
-  def next_player
+  def next_player!
     idx = players.find_index current_player
     self.current_player = players[(idx + 1) % players.length]
     self.turn += 1

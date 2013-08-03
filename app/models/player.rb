@@ -71,7 +71,7 @@ class Player < ActiveRecord::Base
       end
 
       turns << turn
-      game.next_player
+      game.next_player!
       game.save
       turn
     end

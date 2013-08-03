@@ -11,10 +11,17 @@ LootApp.controller 'GameCtrl', ($scope, $window, currentGame, PlayerMapper, logg
     $window.alert "players are missing! #{$scope.game.id}/#{Object.keys($scope.game).join(',')}"
 
   $scope.players = $scope.game.players
-  player = $scope.players.filter (p) -> p.user_id == loggedInUser.id
 
   # This service returns restricted information
-  $scope.player = PlayerMapper.retrieve player[0].id
+  $scope.player = PlayerMapper.retrieve(($scope.players.filter (p) -> p.user_id == loggedInUser.id)[0].id)
+
+  $scope.trackHeight = Math.floor(100 / $scope.players.length) + '%'
+
+  $scope.merchLeft = (i) ->
+    for p, i in $scope.players
+      currentPlayerIdx = i if p.id is $scope.player.id
+    halfWidth = Math.floor(100 / ($scope.players.length * 2))
+    "#{halfWidth * i + halfWidth}%"
 
 #  height = $window.innerHeight;
 #  width = $window.innerWidth;
@@ -26,6 +33,8 @@ LootApp.controller 'GameCtrl', ($scope, $window, currentGame, PlayerMapper, logg
 #
 #  for i in [0..playerCoords.length - 1]
 #    $scope.players[i].coords = playerCoords[i];
+
+  $scope.isCurrentPlayer = (player) -> player.id is $scope.game.currentPlayer().id
 
   $scope.acceptPirate = (e, ui) ->
     draggable = ui.draggable[0]
